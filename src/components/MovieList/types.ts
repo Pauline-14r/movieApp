@@ -1,4 +1,4 @@
-import type {ICard} from "../movieCard/types.ts";
+import type {ICard} from "../MovieCard/types.ts";
 
 export interface IList {
     // page: number;

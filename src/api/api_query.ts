@@ -1,4 +1,4 @@
-import type {IList} from "../components/movieList/types.ts";
+import type {IList} from "../components/MovieList/types.ts";
 
 interface IOptions {
     method: string;

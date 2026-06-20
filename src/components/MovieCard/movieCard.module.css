@@ -1,0 +1,37 @@
+.card_container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 454px;
+    max-height: 281px;
+    background-color: black;
+}
+
+.card_poster {
+    max-width: 183px;
+    max-height: 281px;
+}
+
+.card_description {
+    max-width: 271px;
+    max-height: 281px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: space-around;
+    gap: 10px;
+    color: rgba(255, 255, 255, 1);
+}
+
+.card_overview {
+    max-width: 228px;
+    max-height: 129px;
+    overflow: hidden;
+    line-clamp: 4;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    text-align: left;
+}
