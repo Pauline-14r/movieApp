@@ -1,6 +1,7 @@
 import type {ICard} from "./types.ts";
 import styles from './movieCard.module.css';
 import {format} from "date-fns";
+import { Rate } from 'antd';
 
 function MovieCard({genre_ids, overview, poster_path, release_date, title, vote_average}: ICard) {
     return (
@@ -17,6 +18,7 @@ function MovieCard({genre_ids, overview, poster_path, release_date, title, vote_
                 })}
                 </div>
                 <div className={styles.card_overview}>{overview}</div>
+                <Rate size={"medium"} value={1} />
             </div>
         </div>
     )

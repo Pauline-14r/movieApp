@@ -16,9 +16,9 @@ const options: IOptions = {
     }
 };
 
-export async function getMovies(query: string): Promise<IList> {
+export async function getMovies(query: string, page: number): Promise<IList> {
     try {
-        const response = await fetch(`https://api.themoviedb.org/3/search/movie?include_adult=false&language=en-US&page=1&query=${query}`, options)
+        const response = await fetch(`https://api.themoviedb.org/3/search/movie?include_adult=false&language=en-US&page=${page}&query=${query}`, options)
         if (!response.ok) {
             throw new Error(response.statusText);
         }

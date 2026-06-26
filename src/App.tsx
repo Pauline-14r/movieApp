@@ -5,7 +5,7 @@ import type {IList} from "./components/MovieList/types.ts";
 import MovieList from "./components/MovieList/movieList.tsx";
 import styles from "./App.module.css";
 
-import { Spin, Alert} from 'antd';
+import { Spin, Alert, Pagination} from 'antd';
 import SearchInput from "./components/SearchInput/searchInput.tsx";
 
 function App() {
@@ -13,6 +13,11 @@ function App() {
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const [query, setQuery] = useState<string>("");
+    const [page, setPage] = useState<number>(1);
+
+    function handlePageChange(page: number) {
+        setPage(page);
+    }
 
     function handleInput (value: string) {
         setQuery(value)
@@ -23,7 +28,7 @@ function App() {
         const fetchData = async() => {
             setLoading(true);
             try {
-                const result = await getMovies(trimmedQuery === "" ? "return" : trimmedQuery);
+                const result = await getMovies(trimmedQuery === "" ? "return" : trimmedQuery, page);
                 console.log(result);
                 setData(result);
             } catch (err) {
@@ -35,14 +40,15 @@ function App() {
             }
         }
         fetchData().catch(console.error);
-    }, [query]);
+    }, [query, page]);
 
   return (
       <div className={styles.app_wrapper}>
           {error !== null && <Alert description={error}/>}
-          <SearchInput query={query} handleInput={handleInput} />
+          <SearchInput handleInput={handleInput} />
           {loading && <Spin />}
           {data && <MovieList results={data.results}/>}
+          <Pagination current={page} onChange={handlePageChange} total={50}/>
       </div>
   )
 }
