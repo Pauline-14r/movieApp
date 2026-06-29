@@ -2,6 +2,8 @@ import type {ICard} from "./types.ts";
 import styles from './movieCard.module.css';
 import {format} from "date-fns";
 import { Rate } from 'antd';
+import {useContext} from "react";
+import {GenresContext} from "../../context/GenresContext.tsx";
 
 function MovieCard({genre_ids, overview, poster_path, release_date, title, vote_average}: ICard) {
 
@@ -22,6 +24,8 @@ function MovieCard({genre_ids, overview, poster_path, release_date, title, vote_
         return null
     }
 
+    const movieGenres = useContext(GenresContext)
+
     return (
         <div className={styles.card_container}>
             <img className={styles.card_poster} src={poster_path} alt="poster_path" />
@@ -34,9 +38,15 @@ function MovieCard({genre_ids, overview, poster_path, release_date, title, vote_
                     release_date.length > 0 ? format(new Date(release_date), "MMMM dd, yyyy") : " "
                 }</div>
                 <div className={styles.card_genres}>{genre_ids.map((genre: number) => {
-                    return (<span key={genre} className={styles.card_genre}>{genre}</span>)
+                    const requiredGenre = movieGenres.find((g) => g.id === genre);
+                    return (
+                        <span key={genre} className={styles.card_genre}>
+                            {requiredGenre?.name}
+                        </span>
+                    );
                 })}
                 </div>
+
                 <div className={styles.card_overview}>{overview}</div>
                 <Rate size={"medium"} value={1} />
             </div>

@@ -3,20 +3,20 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    max-width: 454px;
-    max-height: 281px;
+    width: 454px;
+    height: 281px;
     background-color: darkgray;
     position: relative;
 }
 
 .card_poster {
-    max-width: 183px;
-    max-height: 281px;
+    width: 183px;
+    height: 281px;
 }
 
 .card_description {
-    max-width: 271px;
-    max-height: 281px;
+    width: 271px;
+    height: 281px;
     padding: 12px;
     display: flex;
     flex-direction: column;
@@ -24,15 +24,23 @@
     justify-content: space-around;
     gap: 10px;
     color: rgba(255, 255, 255, 1);
+    font-weight: 400;
 }
 
 .card_rating {
-    padding: 10px;
-    border-radius: 60%;
+    width: 40px;
+    height: 40px;
+    padding: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
     border: 3px solid white;
     position: absolute;
     top: 12px;
     right: 12px;
+    font-size: 12px;
+    box-sizing: border-box;
 }
 
 .rating_red {
@@ -50,6 +58,26 @@
 
 .card_name {
     max-width: 160px;
+    font-size: 16px;
+}
+
+.card_date {
+    font-size: 12px;
+}
+
+.card_genres {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.card_genre {
+    padding: 5px;
+    border: 1px solid rgba(24, 144, 255, 1);
+    background-color: rgba(24, 144, 255, 1);
+    text-align: center;
+    font-size: 12px;
 }
 
 .card_overview {
@@ -58,7 +86,8 @@
     overflow: hidden;
     line-clamp: 4;
     display: -webkit-box;
-    -webkit-line-clamp: 4;
+    -webkit-line-clamp: 5;
     -webkit-box-orient: vertical;
     text-align: left;
+    font-size: 12px;
 }
