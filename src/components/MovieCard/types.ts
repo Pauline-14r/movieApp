@@ -6,4 +6,6 @@ export interface ICard {
     release_date: string;
     title: string;
     vote_average: number;
+    guestSessionId: string;
+    onRate: (movieId: number, rating: number) => void;
 }

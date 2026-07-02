@@ -1,11 +1,11 @@
 import {useState, useEffect} from "react";
 import './App.module.css'
-import {getMovies} from "./api/api_query.ts";
+import {createGuestSession, getMovies} from "./api/api_query.ts";
 import type {IList} from "./components/MovieList/types.ts";
 import MovieList from "./components/MovieList/movieList.tsx";
 import styles from "./App.module.css";
 
-import { Spin, Alert, Pagination} from 'antd';
+import { Spin, Alert, Pagination, Tabs} from 'antd';
 import SearchInput from "./components/SearchInput/searchInput.tsx";
 
 function App() {
@@ -14,6 +14,27 @@ function App() {
     const [error, setError] = useState<string | null>(null);
     const [query, setQuery] = useState<string>("");
     const [page, setPage] = useState<number>(1);
+    const [guestSessionId, setGuestSessionId] = useState<string | null>(null);
+
+    useEffect(() => {
+        const startSession = async () => {
+            try {
+                const data = await createGuestSession();
+                setGuestSessionId(data.guest_session_id)
+            } catch (err) {
+                if (err instanceof Error) {
+                    setError(err.message);
+                }
+            }
+        }
+        startSession().catch(console.error);
+    }, []);
+
+    const [activeTab, setActiveTab] = useState<"search" | "rated">("search");
+
+    function handleTabChange(tab: string): void {
+        setActiveTab(tab as "search" | "rated");
+    }
 
     function handlePageChange(page: number) {
         setPage(page);
@@ -45,10 +66,26 @@ function App() {
   return (
       <div className={styles.app_wrapper}>
           {error !== null && <Alert description={error}/>}
-          <SearchInput handleInput={handleInput} />
-          {loading && <Spin />}
-          {data && <MovieList results={data.results}/>}
-          <Pagination current={page} onChange={handlePageChange} total={50}/>
+          <Tabs activeKey={activeTab}
+                onChange={handleTabChange}
+                items={[
+                    {
+                        key: "search",
+                        label: "search",
+                        children: <div>
+                            <SearchInput handleInput={handleInput} />
+                            {loading && <Spin />}
+                            {data && <MovieList results={data.results}/>}
+                            <Pagination current={page} onChange={handlePageChange} total={50}/>
+                        </div>
+                    },
+                    {
+                        key: "rated",
+                        label: "rated",
+                        children: <div>Rated movies</div>
+                    }
+                ]}
+          />
       </div>
   )
 }
