@@ -5,7 +5,7 @@ import { Rate } from 'antd';
 import {useContext} from "react";
 import {GenresContext} from "../../context/GenresContext.tsx";
 
-function MovieCard({genre_ids, overview, poster_path, release_date, title, vote_average, guestSessionId, onRate}: ICard) {
+function MovieCard({genre_ids, id, overview, poster_path, release_date, title, vote_average, onRate}: ICard) {
 
     function formatVotes(vote_average: number): string | null {
         const vote = Number(vote_average.toFixed(1));
@@ -48,7 +48,7 @@ function MovieCard({genre_ids, overview, poster_path, release_date, title, vote_
                 </div>
 
                 <div className={styles.card_overview}>{overview}</div>
-                <Rate size={"medium"} value={1} onChange={(value) => onRate(value)} />
+                <Rate size={"medium"} value={0} onChange={(value: number) => onRate(id, value)} />
             </div>
         </div>
     )

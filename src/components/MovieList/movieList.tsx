@@ -14,7 +14,9 @@ function MovieList({results}: IList) {
                            poster_path={`https://image.tmdb.org/t/p/w500${result.poster_path}`}
                            release_date={result.release_date}
                            title={result.title}
-                           vote_average={result.vote_average} />
+                           vote_average={result.vote_average}
+
+                />
             )) : <p>Ничего не найдено</p>}
         </div>
     )

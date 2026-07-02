@@ -1,6 +1,6 @@
 import {useState, useEffect} from "react";
 import './App.module.css'
-import {createGuestSession, getMovies} from "./api/api_query.ts";
+import {createGuestSession, getMovies, getRatedMovies, type IRating, rateMovie} from "./api/api_query.ts";
 import type {IList} from "./components/MovieList/types.ts";
 import MovieList from "./components/MovieList/movieList.tsx";
 import styles from "./App.module.css";
@@ -63,6 +63,14 @@ function App() {
         fetchData().catch(console.error);
     }, [query, page]);
 
+    async function handleRate(movieId: number, rating: number) {
+        if (guestSessionId !== null) {
+            const result: IRating = await rateMovie(movieId, rating, guestSessionId);
+            console.log(result);
+            const rated = await getRatedMovies(guestSessionId)
+        }
+    }
+
   return (
       <div className={styles.app_wrapper}>
           {error !== null && <Alert description={error}/>}
@@ -75,7 +83,7 @@ function App() {
                         children: <div>
                             <SearchInput handleInput={handleInput} />
                             {loading && <Spin />}
-                            {data && <MovieList results={data.results}/>}
+                            {data && <MovieList results={data.results} onRate={handleRate} />}
                             <Pagination current={page} onChange={handlePageChange} total={50}/>
                         </div>
                     },

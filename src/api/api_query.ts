@@ -1,4 +1,5 @@
 import type {IList} from "../components/MovieList/types.ts";
+import type {ICard} from "../components/MovieCard/types.ts";
 
 interface IOptions {
     method: string;
@@ -24,9 +25,14 @@ interface ISession {
     expires_at: string;
 }
 
-interface IRating {
+export interface IRating {
     status_code: number;
     status_message: string;
+}
+
+interface IRatedMovies {
+    page: number;
+    results: ICard[]
 }
 
 
@@ -81,6 +87,22 @@ export async function rateMovie(movieId: number, rating: number, guestSessionId:
         }
         const ratedMovie: IRating = await response.json();
         return ratedMovie;
+    } catch (error) {
+        if (error instanceof Error) {
+            console.error('Ошибка', error)
+        }
+        throw error;
+    }
+}
+
+export async function getRatedMovies(guestSessionId: string) {
+    try {
+        const response = await fetch(`https://api.themoviedb.org/3/guest_session/guest_session_id=${guestSessionId}/rated/movies?language=en-US&page=1&sort_by=created_at.asc`, getOptions)
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+        const ratedMovies : IRatedMovies = await response.json();
+        return ratedMovies;
     } catch (error) {
         if (error instanceof Error) {
             console.error('Ошибка', error)
