@@ -3,7 +3,7 @@ import type {ICard} from "../MovieCard/types.ts";
 import MovieCard from "../MovieCard/movieCard.tsx";
 import styles from "./movieList.module.css";
 
-function MovieList({results}: IList) {
+function MovieList({results, onRate}: IList,) {
     return (
         <div className={styles.movieList_wrapper}>
             {results.length > 0 ? results.map((result: ICard) => (
@@ -15,7 +15,8 @@ function MovieList({results}: IList) {
                            release_date={result.release_date}
                            title={result.title}
                            vote_average={result.vote_average}
-
+                           rating={result.rating}
+                           onRate={onRate}
                 />
             )) : <p>Ничего не найдено</p>}
         </div>

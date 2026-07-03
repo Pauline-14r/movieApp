@@ -2,6 +2,7 @@ import {useState, useEffect} from "react";
 import './App.module.css'
 import {createGuestSession, getMovies, getRatedMovies, type IRating, rateMovie} from "./api/api_query.ts";
 import type {IList} from "./components/MovieList/types.ts";
+import type {IRatedMovies} from "./api/api_query.ts";
 import MovieList from "./components/MovieList/movieList.tsx";
 import styles from "./App.module.css";
 
@@ -15,6 +16,7 @@ function App() {
     const [query, setQuery] = useState<string>("");
     const [page, setPage] = useState<number>(1);
     const [guestSessionId, setGuestSessionId] = useState<string | null>(null);
+    const [ratedMovies, setRatedMovies] = useState<IRatedMovies | null>(null);
 
     useEffect(() => {
         const startSession = async () => {
@@ -67,7 +69,8 @@ function App() {
         if (guestSessionId !== null) {
             const result: IRating = await rateMovie(movieId, rating, guestSessionId);
             console.log(result);
-            const rated = await getRatedMovies(guestSessionId)
+            const rated = await getRatedMovies(guestSessionId);
+            setRatedMovies(rated);
         }
     }
 
@@ -83,14 +86,20 @@ function App() {
                         children: <div>
                             <SearchInput handleInput={handleInput} />
                             {loading && <Spin />}
-                            {data && <MovieList results={data.results} onRate={handleRate} />}
+                            {data && <MovieList
+                                results={data.results}
+                                onRate={handleRate}
+                            />}
                             <Pagination current={page} onChange={handlePageChange} total={50}/>
                         </div>
                     },
                     {
                         key: "rated",
                         label: "rated",
-                        children: <div>Rated movies</div>
+                        children: <div>
+                            {loading && <Spin />}
+                            {ratedMovies && <MovieList results={ratedMovies.results} onRate={handleRate} />}
+                        </div>
                     }
                 ]}
           />
